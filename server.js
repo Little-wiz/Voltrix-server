@@ -12,11 +12,14 @@ app.use(cors())
 app.use(express.json())
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.EMAIL_PASS,
-    },
+  host:   'smtp.gmail.com',
+  port:   587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 app.post('/api/contact', async (req, res) => {
@@ -31,10 +34,10 @@ app.post('/api/contact', async (req, res) => {
   });
 
   const businessMail = {
-    from:    `"${from_name}" <${process.env.SMTP_USER}>`,
-    replyTo: from_email,
-    to:      process.env.RECIPIENT_EMAIL,
-    subject: `New Service Request — ${service_type}`,
+    from:    `"Ehiz Mogaji Electrical" <${process.env.SMTP_USER}>`,
+  replyTo: from_email,
+  to:      process.env.RECIPIENT_EMAIL,  // ← keep this
+  subject: `New Request from ${from_name} — ${service_type}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#111;">
         <div style="background:#111;padding:24px 32px;border-radius:8px 8px 0 0;">
@@ -95,7 +98,7 @@ app.post('/api/contact', async (req, res) => {
             <strong>${service_type}</strong> and will get back to you within a few hours.
           </p>
           <div style="background:#f9f9f9;border-radius:8px;padding:16px 24px;margin-bottom:24px;">
-            <p style="margin:0;font-size:22px;font-weight:700;">+234 800 000 0000</p>
+            <p style="margin:0;font-size:22px;font-weight:700;">+234 818 890 7896</p>
             <p style="margin:4px 0 0;color:#888;font-size:13px;">Available 24/7 for emergencies</p>
           </div>
           <hr style="border:none;border-top:1px solid #eee;margin:0 0 24px;" />
